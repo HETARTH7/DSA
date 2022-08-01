@@ -1,31 +1,36 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-class Node
+struct Node
 {
-public:
     int data;
     Node *next;
+    Node(int x)
+    {
+        data = x;
+        next = NULL;
+    }
 };
-int main()
+
+void Traverse(Node *head)
 {
-    Node *head;
-    Node *one = NULL;
-    Node *two = NULL;
-    Node *three = NULL;
-    one = new Node();
-    two = new Node();
-    three = new Node();
-    one->data = 1;
-    two->data = 2;
-    three->data = 3;
-    one->next = two;
-    two->next = three;
-    three->next = NULL;
-    head = one;
     while (head != NULL)
     {
         cout << head->data << " ";
         head = head->next;
     }
+};
+Node *insertAtTheBeginning(Node *head, int x)
+{
+    Node *temp = new Node(x);
+    temp->next = head;
+    return temp;
+}
+int main()
+{
+    Node *head = NULL;
+    head = insertAtTheBeginning(head, 10);
+    head = insertAtTheBeginning(head, 20);
+    head = insertAtTheBeginning(head, 30);
+    Traverse(head);
 }
