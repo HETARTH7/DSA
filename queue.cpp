@@ -1,87 +1,66 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct Queue
+class Queue
 {
-public:
-    int size, front, rear, cap;
-    int *arr;
+    int front, rear;
+    vector<int> q;
 
-    Queue(int c)
+public:
+    Queue()
     {
         front = rear = -1;
-        size = 0;
-        cap = c;
-        arr = new int[cap];
     }
 
     bool isEmpty()
     {
         if (front == -1)
         {
-            cout << "Empty Queue\n";
+            return true;
         }
-        return (front == -1);
+        return false;
     }
-
-    bool isFull()
+    void enqueue(int x)
     {
-        if (size == cap)
+        if (isEmpty())
         {
-            cout << "Queue Full\n";
-        }
-        return (size == cap);
-    }
-
-    void enque(int x)
-    {
-        if (front == -1)
-        {
-            front = 0;
-        }
-        else if (size == cap)
-        {
-            cout << "Queue Full\n";
-        }
-        rear++;
-        arr[rear] = x;
-        cout << x << " Inserted\n";
-    }
-    void dequeue()
-    {
-        if (front = -1)
-        {
-            cout << "Queue Empty\n";
-        }
-        else if (front == rear)
-        {
-            front = rear = -1;
+            front = rear = 0;
         }
         else
         {
-            front++;
+            rear++;
         }
-        cout << "Deleted Item\n";
+        q.push_back(x);
     }
-    void display()
+    void dequeue()
     {
-        for (int i = front; i <= rear; i++)
+        if (isEmpty())
         {
-            cout << arr[i] << " ";
+            cout << "Empty. Cannot remove";
         }
+        else
+        {
+            ++front;
+        }
+    }
+    void peek()
+    {
+        for (int i = front; i < rear + 1; i++)
+        {
+            cout << q[i] << " ";
+        }
+        cout << endl;
     }
 };
 
 int main()
 {
-    Queue q(5);
-    q.isEmpty();
-    q.enque(5);
-    q.enque(10);
-    q.enque(15);
-    q.enque(20);
-    q.enque(25);
-    q.display();
-    q.isFull();
-    q.dequeue();
+    Queue a;
+    a.enqueue(1);
+    a.enqueue(2);
+    a.enqueue(3);
+    a.enqueue(4);
+    a.peek();
+    a.dequeue();
+    a.peek();
 }

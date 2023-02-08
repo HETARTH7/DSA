@@ -3,32 +3,25 @@ using namespace std;
 
 void insertionSort(int arr[], int n)
 {
-    int i, j, k;
-    for (i = 1; i < n; i++)
+    for (int i = 1; i < n; i++)
     {
-        j = i - 1;
-        k = arr[i];
-        while (j >= 0 && arr[j]>k)
-        {
-            arr[j + 1] = arr[j];
+        int key=arr[i];
+        int j=i-1;
+        while(j>=0 && arr[j]>key){
+            arr[j+1]=arr[j];
             j--;
         }
-        arr[j + 1] = k;
-    }
-    for (int x = 0; x < n; x++)
-    {
-        cout << arr[x]<<" ";
+        arr[j+1]=key;
     }
 }
+
 int main()
 {
-    int n, arr[n];
-    cout << "Enter size of the array ";
-    cin >> n;
-    cout << "Enter the array\n";
-    for (int i = 0; i < n; i++)
+    int a[] = {8, 6, 3, 2, 1};
+    insertionSort(a, 5);
+    for (int i = 0; i < 5; i++)
     {
-        cin >> arr[i];
+        cout << a[i] << " ";
     }
-    insertionSort(arr, n);
+    return 0;
 }

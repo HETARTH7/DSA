@@ -1,68 +1,39 @@
-
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
 
-void swap(int *a, int *b)
+int partition(int arr[], int l, int h)
 {
-    int t = *a;
-    *a = *b;
-    *b = t;
-}
-
-void printArray(int array[], int size)
-{
-    int i;
-    for (i = 0; i < size; i++)
-        cout << array[i] << " ";
-    cout << endl;
-}
-
-int partition(int array[], int low, int high)
-{
-
-    int pivot = array[high];
-
-    int i = (low - 1);
-
-    for (int j = low; j < high; j++)
+    int i = l - 1;
+    int p = arr[h];
+    for (int j = l; j < h; j++)
     {
-        if (array[j] <= pivot)
+        if (arr[j] < p)
         {
-
             i++;
-
-            swap(&array[i], &array[j]);
+            swap(arr[i], arr[j]);
         }
     }
-
-    swap(&array[i + 1], &array[high]);
-
-    return (i + 1);
+    swap(arr[i + 1], arr[h]);
+    return i + 1;
 }
 
-void quickSort(int array[], int low, int high)
+void quickSort(int arr[], int l, int h)
 {
-    if (low < high)
+    if (l < h)
     {
-
-        int pi = partition(array, low, high);
-
-        quickSort(array, low, pi - 1);
-
-        quickSort(array, pi + 1, high);
+        int p = partition(arr, l, h);
+        quickSort(arr, l, p - 1);
+        quickSort(arr, p + 1, h);
     }
 }
 
 int main()
 {
-    int data[] = {8, 7, 6, 1, 0, 9, 2};
-    int n = sizeof(data) / sizeof(data[0]);
-
-    cout << "Unsorted Array: \n";
-    printArray(data, n);
-
-    quickSort(data, 0, n - 1);
-
-    cout << "Sorted array in ascending order: \n";
-    printArray(data, n);
+    int a[] = {8, 6, 3, 2, 1};
+    quickSort(a, 0, 4);
+    for (int i = 0; i < 5; i++)
+    {
+        cout << a[i] << " ";
+    }
+    return 0;
 }

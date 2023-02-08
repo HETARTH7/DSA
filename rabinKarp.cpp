@@ -1,58 +1,48 @@
-
-
-#include <string.h>
-
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
-
 #define d 10
-
-void rabinKarp(char pattern[], char text[], int q)
+void RabinKarp(string txt, string pat, int q)
 {
-    int m = strlen(pattern);
-    int n = strlen(text);
-    int i, j;
-    int p = 0;
-    int t = 0;
+    int m = pat.length();
+    int n = txt.length();
     int h = 1;
-
-    for (i = 0; i < m - 1; i++)
-        h = (h * d) % q;
-
-    for (i = 0; i < m; i++)
+    for (int i = 0; i < m; i++)
     {
-        p = (d * p + pattern[i]) % q;
-        t = (d * t + text[i]) % q;
+        h = (h * d) % q;
     }
-
-    for (i = 0; i <= n - m; i++)
+    int t = 0;
+    int p = 0;
+    for (int i = 0; i < m; i++)
+    {
+        t = (txt[i] + t * d) % q;
+        p = (pat[i] + p * d) % q;
+    }
+    for (int i = 0; i <= (n - m); i++)
     {
         if (p == t)
         {
-            for (j = 0; j < m; j++)
-            {
-                if (text[i + j] != pattern[j])
+            bool flag = true;
+            for (int j = 0; j < m; j++)
+                if (txt[i + j] != pat[j])
+                {
+                    flag = false;
                     break;
-            }
-
-            if (j == m)
-                cout << "Pattern is found at position: " << i + 1 << endl;
+                }
+            if (flag == true)
+                cout << i << " ";
         }
-
         if (i < n - m)
         {
-            t = (d * (t - text[i] * h) + text[i + m]) % q;
-
+            t = ((d * (t - txt[i] * h)) + txt[i + m]) % q;
             if (t < 0)
-                t = (t + q);
+                t = t + q;
         }
     }
 }
-
 int main()
 {
-    char text[] = "ABCCDDAEFG";
-    char pattern[] = "CDD";
-    int q = 13;
-    rabinKarp(pattern, text, q);
+    string txt = "abababbbaa";
+    string pat = "ab";
+    int q = 12;
+    RabinKarp(txt, pat, q);
 }

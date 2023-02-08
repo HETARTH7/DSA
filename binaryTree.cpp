@@ -1,57 +1,58 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct Node
+class Node
 {
-    int key;
-    Node *left;
+public:
+    int data;
     Node *right;
-    Node(int k)
+    Node *left;
+    Node(int x)
     {
-        key = k;
+        data = x;
         right = left = NULL;
     }
+    void inOrder(Node *root)
+    {
+        if (root != NULL)
+        {
+            inOrder(root->left);
+            cout << root->data << " ";
+            inOrder(root->right);
+        }
+    }
+    void preOrder(Node *root)
+    {
+        if (root != NULL)
+        {
+            cout << root->data << " ";
+            preOrder(root->left);
+            preOrder(root->right);
+        }
+    }
+    void postOrder(Node *root)
+    {
+        if (root != NULL)
+        {
+            postOrder(root->left);
+            postOrder(root->right);
+            cout << root->data << " ";
+        }
+    }
 };
-
-void inOrder(Node *root)
-{
-    if (root != NULL)
-    {
-        inOrder(root->left);
-        cout << root->key << " ";
-        inOrder(root->right);
-    }
-}
-
-void preOrder(Node *root)
-{
-    if (root != NULL)
-    {
-        cout << root->key << " ";
-        preOrder(root->left);
-        preOrder(root->right);
-    }
-}
-
-void postOrder(Node *root)
-{
-    if (root != NULL)
-    {
-        postOrder(root->left);
-        postOrder(root->right);
-        cout << root->key << " ";
-    }
-}
 int main()
 {
     Node *root = new Node(10);
     root->left = new Node(20);
+    root->left = new Node(20);
     root->right = new Node(30);
     root->left->left = new Node(40);
-    cout << "InOrder" << endl;
-    inOrder(root);
-    cout<< endl;
-    preOrder(root);
-    cout << endl;
-    postOrder(root);
+    cout << "Inorder: ";
+    root->inOrder(root);
+    cout << endl
+         << "Preorder: ";
+    root->preOrder(root);
+    cout << endl
+         << "Postorder: ";
+    root->postOrder(root);
 }

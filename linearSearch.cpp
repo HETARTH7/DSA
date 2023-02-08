@@ -1,27 +1,25 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void linearSearch(int arr[], int n, int k)
+int linearSearch(vector<int> v, int x)
 {
-
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < v.size(); i++)
     {
-        if (arr[i] == k)
+        if (v[i] == x)
         {
-            cout << "Position of " << k << " is " << i + 1;
-        }
+            return i;
+        }    
     }
+    return -1;
 }
 int main()
 {
-    int n, k, arr[n];
-    cout << "Enter the size of array";
-    cin >> n;
-    cout << "Enter the number to be searhced";
-    cin >> k;
-    for (int i = 0; i < n; i++)
-    {
-        cin >> arr[i];
+    vector<int> v = {1, 2, 3, 4, 5};
+    int x = 5;
+    int ans=linearSearch(v, x);
+    if(ans==-1){
+        cout<<"Not found";
+    } else{
+        cout<<x<<" found at index: "<<ans;
     }
-    linearSearch(arr, n, k);
 }

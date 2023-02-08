@@ -1,51 +1,84 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void addEdge(vector<int> adj[], int v, int u)
+void addEdge(vector<int> v[], int s, int d)
 {
-    adj[u].push_back(v);
-    adj[v].push_back(u);
+    v[s].push_back(d);
+    v[d].push_back(s);
 }
 
-void printGraph(vector<int> adj[], int v)
+void printGraph(vector<int> v[], int n)
 {
-    for (int i = 0; i < v; i++)
+    for (int d = 0; d < n; ++d)
     {
-        for (int x : adj[i])
-        {
-            cout << x << " ";
-        }
-        cout << endl;
+        cout << "\n Vertex "
+             << d << ":";
+        for (int x : v[d])
+            cout << "-> " << x;
+        cout << "\n";
     }
 }
 
-void bfs(vector<int> adj[], int v, int s)
+void BFS(vector<int> v[], int s, int n)
 {
-    bool visited[v + 1];
-    for (int i = 0; i < v; i++)
+    bool visited[n];
+    for (int i = 0; i < n; i++)
     {
         visited[i] = false;
     }
     queue<int> q;
-    visited[s] = true;
     q.push(s);
+    visited[s] = true;
     while (q.empty() == false)
     {
-        int u = q.front();
+        int x = q.front();
         q.pop();
-        cout << u << " ";
-        for (int v : adj[u])
+        cout << x << " ";
+        for (int y : v[x])
         {
-            if (visited[v] == false)
+            if (visited[y] == false)
             {
-                visited[v] = true;
-                q.push(v);
+                q.push(y);
+                visited[y] = true;
             }
         }
     }
 }
+
+void dfs(vector<int> v[], int s, bool visited[])
+{
+    cout << s << " ";
+    int x = s;
+    visited[s] = true;
+    for (int i : v[s])
+    {
+        if (visited[i] == false)
+        {
+            dfs(v, i, visited);
+        }
+    }
+}
+
+void DFS(vector<int> v[], int s, int n)
+{
+    bool visited[n];
+    for (int i = 0; i < n; i++)
+    {
+        visited[i] = false;
+    }
+    dfs(v, s, visited);
+}
+
 int main()
 {
-    int v;
-    vector<int> adj[v];
+    int n = 5;
+    vector<int> v[n];
+    addEdge(v, 0, 1);
+    addEdge(v, 0, 2);
+    addEdge(v, 1, 2);
+    addEdge(v, 1, 3);
+    addEdge(v, 2, 3);
+    addEdge(v, 2, 4);
+    addEdge(v, 3, 4);
+    DFS(v, 0, n);
 }

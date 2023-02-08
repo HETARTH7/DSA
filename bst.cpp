@@ -1,98 +1,105 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct Node
+class Node
 {
-    int key;
-    struct Node *left, *right;
+public:
+    int data;
+    Node *right;
+    Node *left;
+    Node(int x)
+    {
+        data = x;
+        right = left = NULL;
+    }
+    void preOrder(Node *root)
+    {
+        if (root != NULL)
+        {
+            cout << root->data << " ";
+            preOrder(root->left);
+            preOrder(root->right);
+        }
+    }
+    bool search(Node *root, int x)
+    {
+        if (root->data = NULL)
+        {
+            return false;
+        }
+        else
+        {
+            if (root->data == x)
+            {
+                return true;
+            }
+            if (root->data > x)
+            {
+                search(root->left, x);
+            }
+            if (root->data < x)
+            {
+                search(root->right, x);
+            }
+        }
+    }
+
+    Node *insert(Node *root, int x)
+    {
+        if (root == NULL)
+            return new Node(x);
+        if (root->data < x)
+            root->right = insert(root->right, x);
+        else if (root->data > x)
+            root->left = insert(root->left, x);
+        return root;
+    }
+    Node *inOrderSuccessor(Node *root)
+    {
+        root = root->right;
+        while (root != NULL && root->left != NULL)
+        {
+            root = root->left;
+        }
+        return root;
+    }
+    Node *remove(Node *root, int x)
+    {
+        if (root == NULL)
+        {
+            return root;
+        }
+        else if (root->data > x)
+        {
+            remove(root->left, x);
+        }
+        else if (root->data < x)
+        {
+            remove(root->right, x);
+        }
+        else
+        {
+            if (root->left == NULL)
+            {
+                Node *curr = root->right;
+                delete root;
+                return curr;
+            }
+            else if (root->right == NULL)
+            {
+                Node *curr = root->left;
+                delete root;
+                return curr;
+            }
+            else
+            {
+                Node *curr = inOrderSuccessor(root);
+                root->data = curr->data;
+                root->right = remove(root->right, curr->data);
+            }
+        }
+    }
 };
-
-Node *newNode(int item)
-{
-    Node *temp = new Node;
-    temp->key = item;
-    temp->left = temp->right = NULL;
-    return temp;
-}
-
-void inorder(struct Node *root)
-{
-    if (root != NULL)
-    {
-        inorder(root->left);
-        cout << root->key << " ";
-        inorder(root->right);
-    }
-}
-
-Node *insert(Node *Node, int key)
-{
-    if (Node == NULL)
-        return newNode(key);
-
-    if (key < Node->key)
-        Node->left = insert(Node->left, key);
-    else if (key > Node->key)
-        Node->right = insert(Node->right, key);
-
-    return Node;
-}
-
-Node *search(Node *root, int key)
-{
-    if (root == NULL || root->key == key)
-        return root;
-    if (root->key < key)
-        return search(root->right, key);
-
-    return search(root->left, key);
-}
-
-struct Node *getSuccessor(struct Node *Node)
-{
-    struct Node *current = Node;
-
-    while (current->left != NULL)
-        current = current->left;
-
-    return current;
-}
-
-struct Node *deleteNode(struct Node *root, int key)
-{
-    if (root == NULL)
-        return root;
-
-    if (key < root->key)
-        root->left = deleteNode(root->left, key);
-
-    else if (key > root->key)
-        root->right = deleteNode(root->right, key);
-
-    else
-    {
-        if (root->left == NULL)
-        {
-            struct Node *temp = root->right;
-            free(root);
-            return temp;
-        }
-        else if (root->right == NULL)
-        {
-            struct Node *temp = root->left;
-            free(root);
-            return temp;
-        }
-
-        struct Node *temp = getSuccessor(root->right);
-
-        root->key = temp->key;
-
-        root->right = deleteNode(root->right, temp->key);
-    }
-
-    return root;
-}
 int main()
 {
 }

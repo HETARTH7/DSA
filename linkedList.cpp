@@ -1,139 +1,88 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct Node
+class Node
 {
+public:
     int data;
     Node *next;
+
     Node(int x)
     {
         data = x;
         next = NULL;
     }
 };
-
-void Traverse(Node *head)
+Node *traverse(Node *head)
 {
     while (head != NULL)
     {
         cout << head->data << " ";
         head = head->next;
     }
-};
-Node *insertBeginning(Node *head, int x)
+    cout << endl;
+    return 0;
+}
+Node *insertAtBeginning(int x, Node *head)
 {
     Node *temp = new Node(x);
     temp->next = head;
     return temp;
 }
-Node *insertEnd(Node *head, int x)
+Node *insertAt(int x, int p, Node *head)
 {
     Node *temp = new Node(x);
-    if (head == NULL)
+    for (int i = 0; i < p - 2; i++)
     {
-        return temp;
+        head = head->next;
     }
-    Node *curr = head;
-    while (curr->next != NULL)
-    {
-        curr = curr->next;
-    }
-    curr->next = temp;
-    return head;
+    temp->next = head->next;
+    head->next = temp;
+    return 0;
 }
-Node *delHead(Node *head)
+Node *insertAtEnd(int x, Node *head)
+{
+    Node *temp = new Node(x);
+    while (head->next != NULL)
+    {
+        head = head->next;
+    }
+    head->next = temp;
+    return 0;
+}
+Node *deleteAtBeginning(Node *head)
 {
     Node *temp = head->next;
-    delete head;
+    delete (head);
     return temp;
 }
-Node *delTail(Node *head)
+Node *deleteAtEnd(Node *head)
 {
-    if (head == NULL)
+    while (head->next->next != NULL)
     {
-        return NULL;
+        head = head->next;
     }
-    if (head->next == NULL)
-    {
-        delete head;
-        return NULL;
-    }
-    Node *curr = head;
-    while (curr->next->next != NULL)
-    {
-        curr = curr->next;
-    }
-    delete curr->next;
-    curr->next = NULL;
-    return head;
-}
-
-Node *insertPos(Node *head, int pos, int data)
-{
-    Node *temp = new Node(data);
-    if (pos == 1)
-    {
-        temp->next = head;
-        return temp;
-    }
-    Node *curr = head;
-    for (int i = 1; i <= pos - 2; i++)
-    {
-        curr = curr->next;
-    }
-    if (curr == NULL)
-    {
-        return head;
-    }
-    temp->next = curr->next;
-    curr->next = temp;
-    return head;
-}
-int Search(Node *head, int x)
-{
-    Node *curr = head;
-    int pos = 1;
-    while (curr != NULL)
-    {
-        if (curr->data == x)
-        {
-            return pos;
-        }
-        else
-        {
-            pos++;
-            curr = curr->next;
-        }
-    }
-    return -1;
+    delete (head->next);
+    head->next = NULL;
+    return 0;
 }
 int main()
 {
     Node *head = NULL;
-    head = insertBeginning(head, 30);
-    head = insertBeginning(head, 20);
-    head = insertBeginning(head, 10);
-    Traverse(head);
-    cout << endl;
-    head = insertEnd(head, 40);
-    Traverse(head);
-    cout << endl;
-    head = delHead(head);
-    Traverse(head);
-    cout << endl;
-    head = delTail(head);
-    Traverse(head);
-    cout << endl;
-    head = insertPos(head, 2, 5);
-    Traverse(head);
-    cout << endl;
-    int pos = Search(head, 5);
-    if (pos == -1)
-    {
-        cout << "Not Found";
-    }
-    else
-    {
-        cout << "Found at " << pos;
-    }
+    head = insertAtBeginning(60, head);
+    head = insertAtBeginning(50, head);
+    head = insertAtBeginning(40, head);
+    head = insertAtBeginning(30, head);
+    head = insertAtBeginning(20, head);
+    head = insertAtBeginning(10, head);
+    traverse(head);
+    insertAt(35, 4, head);
+    traverse(head);
+    insertAtEnd(70, head);
+    insertAtEnd(80, head);
+    traverse(head);
+    head = deleteAtBeginning(head);
+    traverse(head);
+    deleteAtEnd(head);
+    traverse(head);
 }

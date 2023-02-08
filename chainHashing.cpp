@@ -3,15 +3,14 @@ using namespace std;
 
 class myHash
 {
-private:
     int n;
     vector<vector<int>> v;
 
 public:
-    myHash(int n)
+    myHash(int size)
     {
-        v = vector<vector<int>>(n);
-        this->n = n;
+        n = size;
+        v = vector<vector<int>>(size);
     }
     int Hash(int x)
     {
@@ -19,8 +18,13 @@ public:
     }
     void insert(int x)
     {
-        int index = Hash(x);
-        v[index].push_back(x);
+        int i = Hash(x);
+        v[i].push_back(x);
+    }
+    int search(int x)
+    {
+        int i = Hash(x);
+        return i;
     }
     void remove(int x)
     {
@@ -33,13 +37,15 @@ public:
             }
         }
     }
-    void displayHash()
+    void display()
     {
         for (int i = 0; i < v.size(); i++)
         {
             cout << i;
             for (int j = 0; j < v[i].size(); j++)
-                cout << " -> " << v[i][j];
+            {
+                cout << "-->" << v[i][j];
+            }
             cout << endl;
         }
     }
@@ -52,8 +58,10 @@ int main()
     s.insert(10);
     s.insert(12);
     s.insert(9);
-    s.displayHash();
-    cout << "After deleting some item\n";
-    s.remove(12);
-    s.displayHash();
+    s.insert(11);
+    s.insert(14);
+    s.display();
+    s.remove(14);
+    cout << "After delete" << endl;
+    s.display();
 }

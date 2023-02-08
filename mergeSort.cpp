@@ -1,82 +1,66 @@
-
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
-void merge(int arr[], int low, int mid, int high)
+
+void merge(int arr[], int l, int m, int r)
 {
-
-    int n1 = mid - low + 1;
-    int n2 = high - mid;
-
-    int L[n1], M[n2];
-
-    for (int i = 0; i < n1; i++)
-        L[i] = arr[low + i];
-    for (int j = 0; j < n2; j++)
-        M[j] = arr[mid + 1 + j];
-
-    int i, j, k;
-    i = 0;
-    j = 0;
-    k = low;
-
-    while (i < n1 && j < n2)
+    int x = m - l + 1;
+    int y = r - m;
+    int a[x], b[y];
+    for (int i = 0; i < x; i++)
     {
-        if (L[i] <= M[j])
+        a[i] = arr[i + l];
+    }
+    for (int i = 0; i < y; i++)
+    {
+        b[i] = arr[m + 1 + i];
+    }
+    int i = 0, j = 0, k = l;
+    while (i < x && j < y)
+    {
+        if (a[i] <= b[j])
         {
-            arr[k] = L[i];
+            arr[k] = a[i];
             i++;
+            k++;
         }
-        else
+        else if (b[j] < a[i])
         {
-            arr[k] = M[j];
+            arr[k] = b[j];
+            k++;
             j++;
         }
-        k++;
     }
-
-    while (i < n1)
+    while (i < x)
     {
-        arr[k] = L[i];
+        arr[k] = a[i];
+        k++;
         i++;
-        k++;
     }
-
-    while (j < n2)
+    while (j < y)
     {
-        arr[k] = M[j];
+        arr[k] = b[j];
+        k++;
         j++;
-        k++;
     }
 }
-
-void mergeSort(int arr[], int l, int high)
+void mergeSort(int arr[], int l, int r)
 {
-    if (l < high)
+    if (l < r)
     {
-        int m = l + (high - l) / 2;
-
+        int m = l + (r - l) / 2;
         mergeSort(arr, l, m);
-        mergeSort(arr, m + 1, high);
-
-        merge(arr, l, m, high);
+        mergeSort(arr, m + 1, r);
+        merge(arr, l, m, r);
     }
-}
-
-void printArray(int arr[], int size)
-{
-    for (int i = 0; i < size; i++)
-        cout << arr[i] << " ";
-    cout << endl;
 }
 
 int main()
 {
-    int arr[] = {6, 5, 12, 10, 9, 1};
-    int size = sizeof(arr) / sizeof(arr[0]);
-
-    mergeSort(arr, 0, size - 1);
-
-    cout << "Sorted array: \n";
-    printArray(arr, size);
+    int a[] = {8, 6, 3, 2, 1};
+    mergeSort(a, 0, 4);
+    for (int i = 0; i < 5; i++)
+    {
+        cout << a[i] << " ";
+    }
     return 0;
 }

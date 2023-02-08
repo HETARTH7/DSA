@@ -3,56 +3,61 @@ using namespace std;
 
 class Stack
 {
-private:
-    int top;
-    vector<int> v;
-
 public:
+    int top;
+    vector<int> s;
+
     Stack()
     {
         top = -1;
     }
     void isEmpty()
     {
-        if (top < 0)
+        if (top == -1)
         {
-            cout << "Empty\n";
+            cout << "Stack is empty";
         }
-        else
-        {
-            cout << "Not Empty\n";
-        }
+        cout << "No";
     }
     void push(int x)
     {
-        v.push_back(x);
         top++;
+        s.push_back(x);
     }
+
     void pop()
     {
-        v.pop_back();
+        s.pop_back();
+        top--;
     }
-    void peek()
+
+    void viewtop()
     {
-        cout << v[top] << endl;
+        cout << "Top of the stack: " << s[top] << endl;
     }
-    void print()
+    void traverse()
     {
-        for (int i = 0; i < v.size(); i++)
+        cout << "Stack: ";
+        for (int i = 0; i < s.size(); i++)
         {
-            cout << v[i] << endl;
+            cout << s[i] << " ";
         }
+        cout << endl;
     }
 };
+
 int main()
 {
-    Stack s;
-    s.isEmpty();
-    s.push(1);
-    s.push(2);
-    s.push(3);
-    s.peek();
-    s.print();
-    s.pop();
-    s.print();
+    Stack arr;
+    arr.traverse();
+    arr.push(1);
+    arr.push(2);
+    arr.push(3);
+    arr.push(4);
+    arr.traverse();
+    arr.viewtop();
+    arr.pop();
+    arr.pop();
+    arr.viewtop();
+    arr.traverse();
 }

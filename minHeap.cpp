@@ -1,85 +1,92 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void swap(int *a, int *b)
+void swapI(int &a, int &b)
 {
-    int temp = *b;
-    *b = *a;
-    *a = temp;
+    int t = a;
+    a = b;
+    b = t;
 }
-void heapify(vector<int> &hT, int i)
+int left(int x)
 {
-    int size = hT.size();
-    int largest = i;
-    int l = 2 * i + 1;
-    int r = 2 * i + 2;
-    if (l < size && hT[l] > hT[largest])
-        largest = l;
-    if (r < size && hT[r] > hT[largest])
-        largest = r;
+    return 2 * x + 1;
+}
 
-    if (largest != i)
-    {
-        swap(&hT[i], &hT[largest]);
-        heapify(hT, largest);
-    }
-}
-void insert(vector<int> &hT, int newNum)
+int right(int x)
 {
-    int size = hT.size();
-    if (size == 0)
+    return 2 * x + 2;
+}
+
+int parent(int x)
+{
+    return (x - 1) / 2;
+}
+
+void insert(vector<int> &v, int x)
+{
+    v.push_back(x);
+    for (int i = v.size() - 1; i != 0; i--)
     {
-        hT.push_back(newNum);
-    }
-    else
-    {
-        hT.push_back(newNum);
-        for (int i = size / 2 - 1; i >= 0; i--)
+        if (v[parent(i)] > v[i])
         {
-            heapify(hT, i);
+            swapI(v[i], v[parent(i)]);
         }
     }
 }
-void deleteNode(vector<int> &hT, int num)
+
+void heapify(vector<int> &v, int i)
 {
-    int size = hT.size();
+    int l = left(i);
+    int r = right(i);
+    int smallest = i;
+    if (v[i] > v[l])
+    {
+        smallest = l;
+    }
+    if (v[i] > v[r])
+    {
+        smallest = r;
+    }
+    if (smallest != i)
+    {
+        swap(v[smallest], v[i]);
+        heapify(v, smallest);
+    }
+}
+
+void display(vector<int> v)
+{
+    for (int i = 0; i < v.size(); i++)
+    {
+        cout << v[i] << " ";
+    }
+    cout << endl;
+}
+
+void extractMin(vector<int> v)
+{
+    swapI(v[0], v[v.size()]);
+    v.pop_back();
+    heapify(v, 0);
+}
+
+void deleteNode(vector<int> &v, int x)
+{
+    int size = v.size();
     int i;
     for (i = 0; i < size; i++)
     {
-        if (num == hT[i])
+        if (x == v[i])
             break;
     }
-    swap(&hT[i], &hT[size - 1]);
+    swapI(v[i], v[size - 1]);
 
-    hT.pop_back();
+    v.pop_back();
     for (int i = size / 2 - 1; i >= 0; i--)
     {
-        heapify(hT, i);
+        heapify(v, i);
     }
 }
-void printArray(vector<int> &hT)
-{
-    for (int i = 0; i < hT.size(); ++i)
-        cout << hT[i] << " ";
-    cout << "\n";
-}
-
 int main()
 {
-    vector<int> heapTree;
-
-    insert(heapTree, 3);
-    insert(heapTree, 4);
-    insert(heapTree, 9);
-    insert(heapTree, 5);
-    insert(heapTree, 2);
-
-    cout << "Max-Heap array: ";
-    printArray(heapTree);
-
-    deleteNode(heapTree, 4);
-
-    cout << "After deleting an element: ";
-
-    printArray(heapTree);
 }
